@@ -42,25 +42,25 @@ class NodeTest < Minitest::Test
     node = Node.new('a')
     node.insert_link('b')
     node.insert_link('c')
-    assert_equal true, node.includes_link?('b')
     assert_equal true, node.includes_link?('c')
   end
 
   def test_by_default_it_is_not_a_terminator
     node = Node.new('a')
-    assert_equal false, node.terminator
+    refute node.terminator
   end
 
   def test_make_terminator_makes_it_a_terminator
     node = Node.new('a')
     node.make_terminator
-    assert_equal true, node.terminator
+    assert node.terminator
   end
 
   def test_delete_removes_terminator
     node = Node.new('a')
+    node.make_terminator
     node.remove_terminator
-    assert_equal false, node.remove_terminator
+    refute node.terminator
   end
 
   def test_disappear_removes_links
@@ -73,16 +73,16 @@ class NodeTest < Minitest::Test
   def test_delete_key_removes_key
     node = Node.new('p')
     node.links['i'] = Node.new('i')
-    node.links['e'] = Node.new('e')
     node.delete_key('i')
-    assert_equal 1, node.links.length
+    assert_equal({}, node.links)
   end
 
   def test_delete_key_removes_only_key
     node = Node.new('p')
     node.links['i'] = Node.new('i')
+    node.links['e'] = Node.new('e')
     node.delete_key('i')
-    assert_equal({}, node.links)
+    assert_equal 1, node.links.length
   end
 
   def test_0_selects_by_default
