@@ -4,7 +4,7 @@ class Node
               :terminator,
               :selects
 
-  def initialize(letter)
+  def initialize(letter = "")
     @letter = letter
     @links = Hash.new
     @terminator = false
