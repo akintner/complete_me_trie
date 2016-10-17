@@ -48,18 +48,32 @@ class CompleteMe
     node_links.each {|letter| populate_suggestions(node, letter, suggestions)}
     suggestions
   end
+
+  def search(node, length, characters, letter)
+    next_node = node.link_to(letter) 
+    if length == 1
+      next_node
+    else
+      node_finder(characters.join, next_node)
+    end
+  end
   
   def node_finder(fragment, node = @root_node)
     length = fragment.length
     characters = fragment.chars
     letter = characters.delete_at(0)
     return @root_node if length == 0
-    next_node = node.link_to(letter)
-    if length == 1
-      next_node
-    else
-      node_finder(characters.join, next_node)
+    search(node, length, characters, letter) if node.includes_link?(letter)
+  end
+
+  def suggest(fragment)
+    suggestions = []
+    node = node_finder(fragment)
+    if node != nil
+      second_halves = find_suggestions(node)
+      suggestions = second_halves.map {|second_half| fragment + second_half}
     end
+    suggestions
   end
 
 end

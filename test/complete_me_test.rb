@@ -101,50 +101,47 @@ class CompleteMeTest < Minitest::Test
     completion.insert('at')
     completion.insert('pie')
     suggestion = completion.suggest("")
-    assert_equal ['pie', 'an', 'at'], suggestion
+    assert_equal ["an", "at", "pie"], suggestion
   end
 
-
+  def test_it_suggests_an_from_a
+    completion = CompleteMe.new
+    completion.insert('an')
+    suggestion = completion.suggest('a')
+    assert_equal ['an'], suggestion
   end
 
-  # def test_it_suggests_an_from_a
-  #   completion = CompleteMe.new
-  #   completion.insert('an')
-  #   suggestion = completion.suggest('a')
-  #   assert_equal ['an'], suggestion
-  # end
+  def test_it_suggests_at_and_an_from_a
+    completion = CompleteMe.new
+    completion.insert('an')
+    completion.insert('at')
+    suggestion = completion.suggest('a')
+    assert_equal ['an', 'at'], suggestion
+  end
 
-  # def test_it_suggests_at_and_an_from_a
-  #   completion = CompleteMe.new
-  #   completion.insert('an')
-  #   completion.insert('at')
-  #   suggestion = completion.suggest('a')
-  #   assert_equal ['an', 'at'], suggestion
-  # end
+  def test_it_suggests_ant_from_an
+    completion = CompleteMe.new
+    completion.insert('ant')
+    suggestion = completion.suggest('an')
+    assert_equal ['ant'], suggestion
+  end
 
-  # def test_it_suggests_ant_from_an
-  #   completion = CompleteMe.new
-  #   completion.insert('ant')
-  #   suggestion = completion.suggest('an')
-  #   assert_equal ['ant'], suggestion
-  # end
+  def test_it_suggests_pizzeria_and_pizza_from_piz
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.insert('pizzeria')
+    suggestion = completion.suggest('piz')
+    assert_equal ['pizza', 'pizzeria'], suggestion
+  end
 
-  # def test_it_suggests_pizzeria_and_pizza_from_piz
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.insert('pizzeria')
-  #   suggestion = completion.suggest('piz')
-  #   assert_equal ['pizza', 'pizzeria'], suggestion
-  # end
-
-  # def test_it_suggests_pizzeria_pizza_pizzaz_from_piz
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.insert('pizzeria')
-  #   completion.insert('pizzaz')
-  #   suggestion = completion.suggest('piz')
-  #   assert_equal ['pizza', 'pizzaz','pizzeria'], suggestion
-  # end
+  def test_it_suggests_pizzeria_pizza_pizzaz_from_piz
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.insert('pizzeria')
+    completion.insert('pizzaz')
+    suggestion = completion.suggest('piz')
+    assert_equal ['pizza', 'pizzaz','pizzeria'], suggestion
+  end
 
   def test_it_populates_an_input_file
     completion = CompleteMe.new
@@ -153,50 +150,50 @@ class CompleteMeTest < Minitest::Test
     assert_equal 19, completion.count
   end
 
-  # def test_it_populates_an_input_file_and_makes_suggestions
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/simple_words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('he')
-  #   assert_equal ['hell','hello'] , suggestion
-  # end
+  def test_it_populates_an_input_file_and_makes_suggestions
+    completion = CompleteMe.new
+    dictionary = File.read('./test/simple_words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('he')
+    assert_equal ['hell','hello'] , suggestion
+  end
 
-  # def test_it_populates_and_doesnt_suggest_its_fragment
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/simple_words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('mass')
-  #   assert_equal ['massive','massif'] , suggestion
-  # end
+  def test_it_populates_and_doesnt_suggest_its_fragment
+    completion = CompleteMe.new
+    dictionary = File.read('./test/simple_words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('mass')
+    assert_equal ['massive','massif'] , suggestion
+  end
 
-  # def test_it_populates_huge_file
-  #   completion = CompleteMe.new
-  #   dictionary = File.read("/usr/share/dict/words")
-  #   completion.populate(dictionary)
-  #   assert_equal 235886, completion.count
-  # end
+  def test_it_populates_huge_file
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    assert_equal 235886, completion.count
+  end
 
-  # def test_it_populates_huge_number_of_words_and_makes_suggestions
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('aar')
-  #   assert_equal ["aardvark", "aardwolf"], suggestion
-  # end
+  def test_it_populates_huge_number_of_words_and_makes_suggestions
+    completion = CompleteMe.new
+    dictionary = File.read('./test/words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('aar')
+    assert_equal ["aardvark", "aardwolf"], suggestion
+  end
 
-  # def test_it_suggests_nil_when_no_words_are_there
-  #   completion = CompleteMe.new
-  #   suggestion = completion.suggest('a')
-  #   assert_equal [], suggestion
-  # end
+  def test_it_suggests_nothing_when_no_words_are_there
+    completion = CompleteMe.new
+    suggestion = completion.suggest('a')
+    assert_equal [], suggestion
+  end
 
-  # def test_it_suggests_nil_given_crazy_fragment
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/simple_words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('zzzzzzzz')
-  #   assert_equal [], suggestion
-  # end
+  def test_it_suggests_nothing_given_crazy_fragment
+    completion = CompleteMe.new
+    dictionary = File.read('./test/simple_words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('zzzzzzzz')
+    assert_equal [], suggestion
+  end
 
   # def test_it_deletes_nothing_when_nothing_exists
   #   completion = CompleteMe.new
