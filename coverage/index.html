@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-10-17T17:25:58-06:00">2016-10-17T17:25:58-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-10-18T08:43:28-06:00">2016-10-18T08:43:28-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         783506.64
+         783506.74
        </span>
     </span> hits/line)
   </h2>
@@ -57,7 +57,7 @@
         <td>50</td>
         <td>50</td>
         <td>0</td>
-        <td>795285.0</td>
+        <td>795285.1</td>
       </tr>
       
       <tr>
@@ -67,7 +67,7 @@
         <td>23</td>
         <td>19</td>
         <td>4</td>
-        <td>757901.5</td>
+        <td>757901.6</td>
       </tr>
       
     </tbody>
@@ -283,7 +283,7 @@
         <li class="covered" data-hits="1585749" data-linenumber="31">
           <span class="hits">1585749</span>
           
-          <code class="ruby">    count += node.links.values.reduce(0) {|sum, next_node| sum + count(next_node)}</code>
+          <code class="ruby">    count += node.links.values.inject(0) {|sum, next_node| sum + count(next_node)}</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="32">
@@ -409,91 +409,91 @@
         <li class="covered" data-hits="1" data-linenumber="52">
           <span class="hits">1</span>
           
-          <code class="ruby">  def search(node, length, characters, letter)</code>
+          <code class="ruby">  def search(node, length, characters)</code>
         </li>
       
         <li class="covered" data-hits="23" data-linenumber="53">
           <span class="hits">23</span>
           
-          <code class="ruby">    next_node = node.link_to(letter) </code>
-        </li>
-      
-        <li class="covered" data-hits="23" data-linenumber="54">
-          <span class="hits">23</span>
-          
           <code class="ruby">    if length == 1</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="55">
+        <li class="covered" data-hits="9" data-linenumber="54">
           <span class="hits">9</span>
           
-          <code class="ruby">      next_node</code>
+          <code class="ruby">      node</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="56">
+        <li class="never" data-hits="" data-linenumber="55">
           
           
           <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="14" data-linenumber="57">
+        <li class="covered" data-hits="14" data-linenumber="56">
           <span class="hits">14</span>
           
-          <code class="ruby">      node_finder(characters.join, next_node)</code>
+          <code class="ruby">      node_finder(characters.join, node)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="58">
+        <li class="never" data-hits="" data-linenumber="57">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="59">
+        <li class="never" data-hits="" data-linenumber="58">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="60">
+        <li class="never" data-hits="" data-linenumber="59">
           
           
           <code class="ruby">  </code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="61">
+        <li class="covered" data-hits="1" data-linenumber="60">
           <span class="hits">1</span>
           
           <code class="ruby">  def node_finder(fragment, node = @root_node)</code>
         </li>
       
-        <li class="covered" data-hits="27" data-linenumber="62">
+        <li class="covered" data-hits="27" data-linenumber="61">
           <span class="hits">27</span>
           
           <code class="ruby">    length = fragment.length</code>
         </li>
       
-        <li class="covered" data-hits="27" data-linenumber="63">
+        <li class="covered" data-hits="27" data-linenumber="62">
           <span class="hits">27</span>
           
           <code class="ruby">    characters = fragment.chars</code>
         </li>
       
-        <li class="covered" data-hits="27" data-linenumber="64">
+        <li class="covered" data-hits="27" data-linenumber="63">
           <span class="hits">27</span>
           
           <code class="ruby">    letter = characters.delete_at(0)</code>
         </li>
       
-        <li class="covered" data-hits="27" data-linenumber="65">
+        <li class="covered" data-hits="27" data-linenumber="64">
           <span class="hits">27</span>
           
           <code class="ruby">    return @root_node if length == 0</code>
         </li>
       
+        <li class="covered" data-hits="25" data-linenumber="65">
+          <span class="hits">25</span>
+          
+          <code class="ruby">    next_node = node.link_to(letter)</code>
+        </li>
+      
         <li class="covered" data-hits="25" data-linenumber="66">
           <span class="hits">25</span>
           
-          <code class="ruby">    search(node, length, characters, letter) if node.includes_link?(letter)</code>
+          <code class="ruby">    search(next_node, length, characters) if node.includes_link?(letter)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="67">
@@ -700,8 +700,8 @@
           <code class="ruby">  def link_to(letter)</code>
         </li>
       
-        <li class="covered" data-hits="4515087" data-linenumber="19">
-          <span class="hits">4515087</span>
+        <li class="covered" data-hits="4515089" data-linenumber="19">
+          <span class="hits">4515089</span>
           
           <code class="ruby">    links[letter]</code>
         </li>

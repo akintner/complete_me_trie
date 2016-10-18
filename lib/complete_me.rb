@@ -28,7 +28,7 @@ class CompleteMe
   def count(node = @root_node)
     count = 0
     count += 1 if node.terminator 
-    count += node.links.values.reduce(0) {|sum, next_node| sum + count(next_node)}
+    count += node.links.values.inject(0) {|sum, next_node| sum + count(next_node)}
   end
   
   def populate(dictionary)
@@ -49,12 +49,11 @@ class CompleteMe
     suggestions
   end
 
-  def search(node, length, characters, letter)
-    next_node = node.link_to(letter) 
+  def search(node, length, characters)
     if length == 1
-      next_node
+      node
     else
-      node_finder(characters.join, next_node)
+      node_finder(characters.join, node)
     end
   end
   
@@ -63,7 +62,8 @@ class CompleteMe
     characters = fragment.chars
     letter = characters.delete_at(0)
     return @root_node if length == 0
-    search(node, length, characters, letter) if node.includes_link?(letter)
+    next_node = node.link_to(letter)
+    search(next_node, length, characters) if node.includes_link?(letter)
   end
 
   def suggest(fragment)
