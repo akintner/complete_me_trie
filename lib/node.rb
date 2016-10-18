@@ -1,4 +1,5 @@
 class Node
+  
   attr_reader :letter, 
               :links,
               :terminator,
