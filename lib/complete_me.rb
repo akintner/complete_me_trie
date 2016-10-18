@@ -73,7 +73,21 @@ class CompleteMe
       second_halves = find_suggestions(node)
       suggestions = second_halves.map {|second_half| fragment + second_half}
     end
-    suggestions
+    sort_by_selections(suggestions)
   end
+
+  def select(fragment, word)
+    if suggest(fragment).include?(word)
+      node = node_finder(word)
+      node.select if node.terminator 
+    end
+  end
+
+  def sort_by_selections(suggestions)
+    suggestions.sort_by do |suggestion|
+      node_finder(suggestion).selects * -1
+    end
+  end
+
 
 end

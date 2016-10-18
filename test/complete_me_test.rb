@@ -1,5 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+# require 'simplecov'
+# SimpleCov.start
 
 require_relative '../lib/node'
 require_relative '../lib/complete_me.rb'
@@ -166,20 +166,20 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['massive','massif'] , suggestion
   end
 
-  def test_it_populates_huge_file
-    completion = CompleteMe.new
-    dictionary = File.read("/usr/share/dict/words")
-    completion.populate(dictionary)
-    assert_equal 235886, completion.count
-  end
+  # def test_it_populates_huge_file
+  #   completion = CompleteMe.new
+  #   dictionary = File.read("/usr/share/dict/words")
+  #   completion.populate(dictionary)
+  #   assert_equal 235886, completion.count
+  # end
 
-  def test_it_populates_huge_number_of_words_and_makes_suggestions
-    completion = CompleteMe.new
-    dictionary = File.read('./test/dictionaries/words.txt')
-    completion.populate(dictionary)
-    suggestion = completion.suggest('aar')
-    assert_equal ["aardvark", "aardwolf"], suggestion
-  end
+  # def test_it_populates_huge_number_of_words_and_makes_suggestions
+  #   completion = CompleteMe.new
+  #   dictionary = File.read('./test/dictionaries/words.txt')
+  #   completion.populate(dictionary)
+  #   suggestion = completion.suggest('aar')
+  #   assert_equal ["aardvark", "aardwolf"], suggestion
+  # end
 
   def test_it_suggests_nothing_when_no_words_are_there
     completion = CompleteMe.new
@@ -281,44 +281,44 @@ class CompleteMeTest < Minitest::Test
   #   assert_equal 1, completion.count
   # end
 
-  # def test_select_adds_selection_to_word
-  #   completion = CompleteMe.new
-  #   completion.insert('an')
-  #   completion.select('a', 'an')
-  #   completion.node_finder('an').inspect
-  #   result = completion.node_finder('an').selects
-  #   assert_equal 1, result
-  # end
+  def test_select_adds_selection_to_word
+    completion = CompleteMe.new
+    completion.insert('an')
+    completion.select('a', 'an')
+    completion.node_finder('an').inspect
+    result = completion.node_finder('an').selects
+    assert_equal 1, result
+  end
 
-  # def test_selecting_twice_adds_selection_to_word
-  #   completion = CompleteMe.new
-  #   completion.insert('an')
-  #   completion.select('a', 'an')
-  #   completion.select('a', 'an')
-  #   result = completion.node_finder('an').selects
-  #   assert_equal 2, result
-  # end
+  def test_selecting_twice_adds_selection_to_word
+    completion = CompleteMe.new
+    completion.insert('an')
+    completion.select('a', 'an')
+    completion.select('a', 'an')
+    result = completion.node_finder('an').selects
+    assert_equal 2, result
+  end
 
-  # def test_selecting_only_works_when_word_is_a_suggestion
-  #   completion = CompleteMe.new
-  #   completion.insert('an')
-  #   completion.select('p', 'an')
-  #   result = completion.node_finder('an').selects
-  #   assert_equal 0, result
-  # end
+  def test_selecting_only_works_when_word_is_a_suggestion
+    completion = CompleteMe.new
+    completion.insert('an')
+    completion.select('p', 'an')
+    result = completion.node_finder('an').selects
+    assert_equal 0, result
+  end
 
-  # def test_selecting_nothing_does_nothing
-  #   completion = CompleteMe.new
-  #   refute completion.select('', '')
-  # end
+  def test_selecting_nothing_does_nothing
+    completion = CompleteMe.new
+    refute completion.select('', '')
+  end
 
-  # def test_it_suggest_sorts_by_selections
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.insert('pizzeria')
-  #   completion.select('piz', 'pizzeria')
-  #   result = completion.suggest('piz')
-  #   assert_equal ['pizzeria', 'pizza'], result
-  # end
+  def test_it_suggest_sorts_by_selections
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.insert('pizzeria')
+    completion.select('piz', 'pizzeria')
+    result = completion.suggest('piz')
+    assert_equal ['pizzeria', 'pizza'], result
+  end
   
 end
