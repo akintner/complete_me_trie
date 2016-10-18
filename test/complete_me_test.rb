@@ -145,14 +145,14 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_populates_an_input_file
     completion = CompleteMe.new
-    dictionary = File.read('./test/simple_words.txt')
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
     completion.populate(dictionary)
     assert_equal 19, completion.count
   end
 
   def test_it_populates_an_input_file_and_makes_suggestions
     completion = CompleteMe.new
-    dictionary = File.read('./test/simple_words.txt')
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
     completion.populate(dictionary)
     suggestion = completion.suggest('he')
     assert_equal ['hell','hello'] , suggestion
@@ -160,7 +160,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_populates_and_doesnt_suggest_its_fragment
     completion = CompleteMe.new
-    dictionary = File.read('./test/simple_words.txt')
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
     completion.populate(dictionary)
     suggestion = completion.suggest('mass')
     assert_equal ['massive','massif'] , suggestion
@@ -175,7 +175,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_populates_huge_number_of_words_and_makes_suggestions
     completion = CompleteMe.new
-    dictionary = File.read('./test/words.txt')
+    dictionary = File.read('./test/dictionaries/words.txt')
     completion.populate(dictionary)
     suggestion = completion.suggest('aar')
     assert_equal ["aardvark", "aardwolf"], suggestion
@@ -189,7 +189,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_suggests_nothing_given_crazy_fragment
     completion = CompleteMe.new
-    dictionary = File.read('./test/simple_words.txt')
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
     completion.populate(dictionary)
     suggestion = completion.suggest('zzzzzzzz')
     assert_equal [], suggestion
@@ -200,7 +200,7 @@ class CompleteMeTest < Minitest::Test
   #   refute completion.delete("")
   # end
 
-  # def test_it_deletes_anything_when_nothing_exists
+  # def test_it_deletes_nothing_when_nothing_exists
   #   completion = CompleteMe.new
   #   refute completion.delete("pizza")
   # end
