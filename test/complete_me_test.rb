@@ -1,5 +1,5 @@
-# require 'simplecov'
-# SimpleCov.start
+require 'simplecov'
+SimpleCov.start
 
 require_relative '../lib/node'
 require_relative '../lib/complete_me.rb'
@@ -166,20 +166,20 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['massive','massif'] , suggestion
   end
 
-  # def test_it_populates_huge_file
-  #   completion = CompleteMe.new
-  #   dictionary = File.read("/usr/share/dict/words")
-  #   completion.populate(dictionary)
-  #   assert_equal 235886, completion.count
-  # end
+  def test_it_populates_huge_file
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    assert_equal 235886, completion.count
+  end
 
-  # def test_it_populates_huge_number_of_words_and_makes_suggestions
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/dictionaries/words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('aar')
-  #   assert_equal ["aardvark", "aardwolf"], suggestion
-  # end
+  def test_it_populates_huge_number_of_words_and_makes_suggestions
+    completion = CompleteMe.new
+    dictionary = File.read('./test/dictionaries/words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('aar')
+    assert_equal ["aardvark", "aardwolf"], suggestion
+  end
 
   def test_it_suggests_nothing_when_no_words_are_there
     completion = CompleteMe.new
@@ -195,91 +195,91 @@ class CompleteMeTest < Minitest::Test
     assert_equal [], suggestion
   end
 
-  # def test_it_deletes_nothing_when_nothing_exists
-  #   completion = CompleteMe.new
-  #   refute completion.delete("")
-  # end
+  def test_it_deletes_nothing_when_nothing_is_passed
+    completion = CompleteMe.new
+    refute completion.delete("")
+  end
 
-  # def test_it_deletes_nothing_when_nothing_exists
-  #   completion = CompleteMe.new
-  #   refute completion.delete("pizza")
-  # end
+  def test_it_deletes_nothing_when_no_words_exists
+    completion = CompleteMe.new
+    refute completion.delete("pizza")
+  end
 
-  # def test_it_deletes_nothing_when_something_exists
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   refute completion.delete("")
-  # end
+  def test_it_deletes_nothing_when_something_exists
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    refute completion.delete("")
+  end
 
-  # def test_delete_removes_terminator
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.delete('pizza')
-  #   suggestion = completion.suggest('piz')
-  #   assert_equal [], suggestion
-  # end
+  def test_delete_removes_terminator
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.delete('pizza')
+    suggestion = completion.suggest('piz')
+    assert_equal [], suggestion
+  end
   
-  # def test_delete_removes_terminator_with_populated_list
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/simple_words.txt')
-  #   completion.populate(dictionary)
-  #   completion.delete('pizza')
-  #   suggestion = completion.suggest('piz')
-  #   assert_equal ["pizzaz", "pizzeria"] , suggestion
-  # end
+  def test_delete_removes_terminator_with_populated_list
+    completion = CompleteMe.new
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
+    completion.populate(dictionary)
+    completion.delete('pizza')
+    suggestion = completion.suggest('piz')
+    assert_equal ["pizzaz", "pizzeria"] , suggestion
+  end
 
-  # def test_delete_then_insert_puts_word_back
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/simple_words.txt')
-  #   completion.populate(dictionary)
-  #   completion.delete('pizza')
-  #   completion.insert('pizza')
-  #   suggestion = completion.suggest('piz')
-  #   assert_equal ["pizza","pizzaz", "pizzeria"] , suggestion
-  # end
+  def test_delete_then_insert_puts_word_back
+    completion = CompleteMe.new
+    dictionary = File.read('./test/dictionaries/simple_words.txt')
+    completion.populate(dictionary)
+    completion.delete('pizza')
+    completion.insert('pizza')
+    suggestion = completion.suggest('piz')
+    assert_equal ["pizza","pizzaz", "pizzeria"] , suggestion
+  end
 
-  # def test_it_deletes_nodes
-  #   completion = CompleteMe.new
-  #   completion.insert('pi')
-  #   completion.delete('pi')
-  #   result = completion.root_node.includes_link?('p')
-  #   assert_equal false, result
-  # end
+  def test_it_deletes_nodes
+    completion = CompleteMe.new
+    completion.insert('pi')
+    completion.delete('pi')
+    result = completion.root_node.includes_link?('p')
+    assert_equal false, result
+  end
 
-  # def test_it_deletes_nodes_all_the_way_to_root
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.insert('pets')
-  #   completion.delete('pizza')
-  #   result = completion.root_node.link_to('p').includes_link?('i')
-  #   assert_equal false, result
-  # end
+  def test_it_deletes_nodes_all_the_way_to_root
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.insert('pets')
+    completion.delete('pizza')
+    result = completion.root_node.link_to('p').includes_link?('i')
+    assert_equal false, result
+  end
 
-  # def test_it_deletes_only_necessary_nodes
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.insert('pets')
-  #   completion.insert('pie')
-  #   completion.delete('pizza')
-  #   result_true = completion.root_node.link_to('p').link_to('i').includes_link?('e')
-  #   result_false = completion.root_node.link_to('p').link_to('i').includes_link?('z')
-  #   assert_equal true, result_true
-  #   assert_equal false, result_false
-  # end
+  def test_it_deletes_only_necessary_nodes
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.insert('pets')
+    completion.insert('pie')
+    completion.delete('pizza')
+    result_true = completion.root_node.link_to('p').link_to('i').includes_link?('e')
+    result_false = completion.root_node.link_to('p').link_to('i').includes_link?('z')
+    assert_equal true, result_true
+    assert_equal false, result_false
+  end
 
-  # def test_delete_removes_word_from_count
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.delete('pizza')
-  #   assert_equal 0, completion.count
-  # end
+  def test_delete_removes_word_from_count
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.delete('pizza')
+    assert_equal 0, completion.count
+  end
 
-  # def test_deleting_nothing_removes_no_words_from_count
-  #   completion = CompleteMe.new
-  #   completion.insert('pizza')
-  #   completion.delete('pi')
-  #   assert_equal 1, completion.count
-  # end
+  def test_deleting_nothing_removes_no_words_from_count
+    completion = CompleteMe.new
+    completion.insert('pizza')
+    completion.delete('pi')
+    assert_equal 1, completion.count
+  end
 
   def test_select_adds_selection_to_word
     completion = CompleteMe.new

@@ -89,5 +89,27 @@ class CompleteMe
     end
   end
 
+  def vanish_node(node, characters, letter)
+    if node.links.length == 0 && node != @root_node
+      node.disappear
+      delete_nodes(characters.join, letter)
+    end
+  end
+
+  def delete_nodes(word, previous_letter = "")
+    node = node_finder(word)
+    node.delete_key(previous_letter)
+    characters = word.chars
+    letter = characters.delete_at(-1)
+    vanish_node(node, characters, letter)
+  end
+  
+  def delete(word)
+    node = node_finder(word)
+    if node != nil && node.terminator
+      node.remove_terminator 
+      delete_nodes(word)
+    end
+  end
 
 end
