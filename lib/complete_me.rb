@@ -1,8 +1,9 @@
 require './lib/node'
+require 'pry'
 
 class CompleteMe
 
-  attr_reader :root_node
+  attr_reader :root_node, :suggests
 
   def initialize
     @root_node = Node.new
@@ -17,11 +18,10 @@ class CompleteMe
   end
 
   def insert(word, node = @root_node)
-    length = word.length
     characters = word.chars
     letter = characters.delete_at(0)
     node.insert_link(letter) unless node.includes_link?(letter)
-    add_other_letters(length, letter, characters, node.link_to(letter))
+    add_other_letters(word.length, letter, characters, node.link_to(letter))
   end
 
   def count(node = @root_node)
@@ -32,14 +32,15 @@ class CompleteMe
   end
   
   def populate(dictionary)
-    words = dictionary.split("\n")
-    words.each {|word| insert(word)}
+    dictionary.split("\n").each {|word| insert(word)}
   end
 
-  def populate_suggestions(node, letter, suggestions)
+  def populate_suggestions(node, letter, fragment_suggestions)
     next_node = node.link_to(letter)
-    suggestions << letter if next_node.terminator
-    find_suggestions(next_node).each {|suggestion| suggestions << letter + suggestion} #correct enumerable?
+    fragment_suggestions << letter if next_node.terminator
+    find_suggestions(next_node).each do |suggestion|
+      fragment_suggestions << letter + suggestion
+    end
   end
 
   def search(node, length, characters)
@@ -51,12 +52,11 @@ class CompleteMe
   end
   
   def node_finder(fragment, node = @root_node)
-    length = fragment.length
     characters = fragment.chars
     letter = characters.delete_at(0)
-    return @root_node if length == 0 #better way here?
+    return @root_node if fragment.length == 0
     next_node = node.link_to(letter)
-    search(next_node, length, characters) if node.includes_link?(letter)
+    search(next_node, fragment.length, characters) if node.includes_link?(letter)
   end
 
   def select(fragment, word)
@@ -67,10 +67,10 @@ class CompleteMe
   end
 
   def find_suggestions(node)
-    suggestions = []
+    fragment_suggestions = []
     letters = node.links.keys
-    letters.each {|letter| populate_suggestions(node, letter, suggestions)} #correct enumerable?
-    suggestions
+    letters.each {|letter| populate_suggestions(node, letter, fragment_suggestions)} #correct enumerable?
+    fragment_suggestions
   end
 
   def sort_by_selections(suggestions)
@@ -98,11 +98,11 @@ class CompleteMe
     end
   end
 
-  def delete_nodes(word, key = "") #better way here?
+  def delete_nodes(word, key = "") 
     node = node_finder(word)
     node.delete_key(key)
     characters = word.chars
-    letter = characters.delete_at(-1)   #change to delete last letter?
+    letter = characters.delete_at(-1)
     vanish_node(node, characters, letter)
   end
   

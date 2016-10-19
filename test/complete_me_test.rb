@@ -97,7 +97,6 @@ class CompleteMeTest < Minitest::Test
     refute completion.node_finder("?")
   end
 
-
   def test_it_suggests_all_words_given_nothing
     completion = CompleteMe.new
     completion.insert('an')
@@ -171,7 +170,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_populates_huge_file
     completion = CompleteMe.new
-    dictionary = File.read("/usr/share/dict/words")
+    dictionary = File.read('./test/dictionaries/words.txt')
     completion.populate(dictionary)
     assert_equal 235886, completion.count
   end
