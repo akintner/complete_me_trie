@@ -1,8 +1,8 @@
 require 'simplecov'
 SimpleCov.start
 
-require_relative '../lib/node'
-require_relative '../lib/complete_me.rb'
+require './lib/node'
+require './lib/complete_me.rb'
 require "minitest/autorun"
 require "minitest/pride"
 
@@ -166,20 +166,20 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['massive','massif'] , suggestion
   end
 
-  def test_it_populates_huge_file
-    completion = CompleteMe.new
-    dictionary = File.read("/usr/share/dict/words")
-    completion.populate(dictionary)
-    assert_equal 235886, completion.count
-  end
+  # def test_it_populates_huge_file
+  #   completion = CompleteMe.new
+  #   dictionary = File.read("/usr/share/dict/words")
+  #   completion.populate(dictionary)
+  #   assert_equal 235886, completion.count
+  # end
 
-  def test_it_populates_huge_number_of_words_and_makes_suggestions
-    completion = CompleteMe.new
-    dictionary = File.read('./test/dictionaries/words.txt')
-    completion.populate(dictionary)
-    suggestion = completion.suggest('aar')
-    assert_equal ["aardvark", "aardwolf"], suggestion
-  end
+  # def test_it_populates_huge_number_of_words_and_makes_suggestions
+  #   completion = CompleteMe.new
+  #   dictionary = File.read('./test/dictionaries/words.txt')
+  #   completion.populate(dictionary)
+  #   suggestion = completion.suggest('aar')
+  #   assert_equal ["aardvark", "aardwolf"], suggestion
+  # end
 
   def test_it_suggests_nothing_when_no_words_are_there
     completion = CompleteMe.new
@@ -310,6 +310,12 @@ class CompleteMeTest < Minitest::Test
   def test_selecting_nothing_does_nothing
     completion = CompleteMe.new
     refute completion.select('', '')
+  end
+
+  def test_selecting_a_non_word_does_nothing
+    completion = CompleteMe.new
+    completion.insert('an')
+    refute completion.select('a', 'pie')
   end
 
   def test_it_suggest_sorts_by_selections

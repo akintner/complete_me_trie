@@ -1,4 +1,4 @@
-require_relative '../lib/node'
+require './lib/node'
 require "minitest/autorun"
 require "minitest/pride"
 

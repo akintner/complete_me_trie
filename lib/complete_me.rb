@@ -1,4 +1,4 @@
-require_relative '../lib/node'
+require './lib/node'
 
 class CompleteMe
 
@@ -28,7 +28,7 @@ class CompleteMe
   def count(node = @root_node)
     count = 0
     count += 1 if node.terminator 
-    count += node.links.values.inject(0) {|sum, next_node| sum + count(next_node)}
+    count += node.links.values.inject(0) {|sum, next_node| sum + count(next_node)} #too many dots?
   end
   
   def populate(dictionary)
@@ -39,13 +39,13 @@ class CompleteMe
   def populate_suggestions(node, letter, suggestions)
     next_node = node.link_to(letter)
     suggestions << letter if next_node.terminator
-    find_suggestions(next_node).each {|suggestion| suggestions << letter + suggestion}
+    find_suggestions(next_node).each {|suggestion| suggestions << letter + suggestion} #correct enumerable?
   end
 
   def find_suggestions(node)
     suggestions = []
     node_links = node.links.keys
-    node_links.each {|letter| populate_suggestions(node, letter, suggestions)}
+    node_links.each {|letter| populate_suggestions(node, letter, suggestions)} #correct enumerable?
     suggestions
   end
 
@@ -61,19 +61,9 @@ class CompleteMe
     length = fragment.length
     characters = fragment.chars
     letter = characters.delete_at(0)
-    return @root_node if length == 0
+    return @root_node if length == 0 #better way here?
     next_node = node.link_to(letter)
     search(next_node, length, characters) if node.includes_link?(letter)
-  end
-
-  def suggest(fragment)
-    suggestions = []
-    node = node_finder(fragment)
-    if node != nil
-      second_halves = find_suggestions(node)
-      suggestions = second_halves.map {|second_half| fragment + second_half}
-    end
-    sort_by_selections(suggestions)
   end
 
   def select(fragment, word)
@@ -84,9 +74,17 @@ class CompleteMe
   end
 
   def sort_by_selections(suggestions)
-    suggestions.sort_by do |suggestion|
-      node_finder(suggestion).selects * -1
+    suggestions.sort_by {|suggestion| node_finder(suggestion).selects * -1} #reverse?
+  end
+  
+  def suggest(fragment)
+    suggestions = []
+    node = node_finder(fragment)
+    if node != nil
+      second_halves = find_suggestions(node)
+      suggestions = second_halves.map {|second_half| fragment + second_half}
     end
+    sort_by_selections(suggestions)
   end
 
   def vanish_node(node, characters, letter)
@@ -96,11 +94,11 @@ class CompleteMe
     end
   end
 
-  def delete_nodes(word, previous_letter = "")
+  def delete_nodes(word, previous_letter = "") #style?
     node = node_finder(word)
     node.delete_key(previous_letter)
     characters = word.chars
-    letter = characters.delete_at(-1)
+    letter = characters.delete_at(-1)   #change to delete last letter?
     vanish_node(node, characters, letter)
   end
   
