@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 require './lib/node'
 require './lib/complete_me.rb'
 require "minitest/autorun"
@@ -30,7 +27,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal 1, completion.count
   end
 
-  def test_it_inserts_multiple_words
+  def test_it_inserts_multiple_words 
     completion = CompleteMe.new
     completion.insert('pizza')
     completion.insert('hello')
@@ -95,6 +92,12 @@ class CompleteMeTest < Minitest::Test
     assert_equal completion.root_node, node
   end
 
+  def test_does_not_find_any_nodes_when_nonsense_is_passed_to_finder
+    completion = CompleteMe.new
+    refute completion.node_finder("?")
+  end
+
+
   def test_it_suggests_all_words_given_nothing
     completion = CompleteMe.new
     completion.insert('an')
@@ -158,28 +161,28 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['hell','hello'] , suggestion
   end
 
-  def test_it_populates_and_doesnt_suggest_its_fragment
+  def test_it_populates_and_does_suggest_its_fragment
     completion = CompleteMe.new
     dictionary = File.read('./test/dictionaries/simple_words.txt')
     completion.populate(dictionary)
     suggestion = completion.suggest('mass')
-    assert_equal ['massive','massif'] , suggestion
+    assert_equal ['mass','massive','massif'] , suggestion
   end
 
-  # def test_it_populates_huge_file
-  #   completion = CompleteMe.new
-  #   dictionary = File.read("/usr/share/dict/words")
-  #   completion.populate(dictionary)
-  #   assert_equal 235886, completion.count
-  # end
+  def test_it_populates_huge_file
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    assert_equal 235886, completion.count
+  end
 
-  # def test_it_populates_huge_number_of_words_and_makes_suggestions
-  #   completion = CompleteMe.new
-  #   dictionary = File.read('./test/dictionaries/words.txt')
-  #   completion.populate(dictionary)
-  #   suggestion = completion.suggest('aar')
-  #   assert_equal ["aardvark", "aardwolf"], suggestion
-  # end
+  def test_it_populates_huge_number_of_words_and_makes_suggestions
+    completion = CompleteMe.new
+    dictionary = File.read('./test/dictionaries/words.txt')
+    completion.populate(dictionary)
+    suggestion = completion.suggest('aar')
+    assert_equal ["aardvark", "aardwolf"], suggestion
+  end
 
   def test_it_suggests_nothing_when_no_words_are_there
     completion = CompleteMe.new

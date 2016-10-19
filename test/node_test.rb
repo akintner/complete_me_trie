@@ -19,7 +19,7 @@ class NodeTest < Minitest::Test
     assert_equal ['b'], node.links.keys
   end
 
-  def test_it_inserts_multiple_links
+  def test_it_inserts_multiple_links_and_saves_keys
     node = Node.new('a')
     node.insert_link('b')
     node.insert_link('c')
