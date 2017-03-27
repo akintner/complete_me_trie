@@ -1,4 +1,4 @@
-#Complete-Me Trie
+# Complete-Me Trie
 Everyone in today's smartphone-saturated world has had their
 share of interactions with textual "autocomplete." You
 may have sometimes even wondered if autocomplete is
